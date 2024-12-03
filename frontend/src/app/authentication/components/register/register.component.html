@@ -1,0 +1,73 @@
+<div class="min-h-screen py-6 flex flex-col justify-center sm:py-12 bg-gray-100">
+    <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+        <div class="absolute inset-0 bg-gradient-to-r from-teal-300 to-teal-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+        <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+            <h1 class="text-center text-3xl font-extrabold text-teal-600">Start Your Rental Adventure</h1>
+            <p class="text-center text-gray-700 mb-6">Create an account to begin your journey</p>
+            <form [formGroup]="registerForm" (ngSubmit)="register()" class="space-y-8">
+                <!-- Full Name field -->
+                <div class="relative mb-4">
+                    <input id="name" type="text" placeholder="Full Name" formControlName="name"
+                        class="peer placeholder-transparent h-12 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-teal-600 transition duration-200" />
+                    <label for="name"
+                        class="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Full Name</label>
+                    <div *ngIf="name?.invalid && (name?.touched || name?.dirty)" class="text-red-500 text-xs mt-1">
+                        <span *ngIf="name?.errors?.['required']">Name is required.</span>
+                    </div>
+                </div>
+                <!-- Email Address field -->
+                <div class="relative mb-4">
+                    <input id="email" type="email" placeholder="Email Address" formControlName="email"
+                        class="peer placeholder-transparent h-12 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-teal-600 transition duration-200" />
+                    <label for="email"
+                        class="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Email Address</label>
+                    <div *ngIf="email?.invalid && (email?.touched || email?.dirty)" class="text-red-500 text-xs mt-1">
+                        <span *ngIf="email?.errors?.['required']">Email is required.</span>
+                        <span *ngIf="email?.errors?.['email']">Please enter a valid email.</span>
+                    </div>
+                </div>
+                <!-- Password field -->
+                <div class="relative mb-4">
+                    <input id="password" type="password" placeholder="Password" formControlName="password"
+                        (input)="handlePasswordChange()"
+                        class="peer placeholder-transparent h-12 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-teal-600 transition duration-200" />
+                    <label for="password"
+                        class="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Password</label>
+                    <div class="mt-2">
+                        <div class="flex items-center space-x-2 text-sm">
+                            <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full"
+                                    [ngClass]="passwordStrength >= 4 ? 'bg-green-500' : 'bg-yellow-500'"
+                                    [style.width]="(passwordStrength / 5) * 100 + '%'"></div>
+                            </div>
+                            <span [ngClass]="passwordStrength >= 4 ? 'text-green-500' : 'text-yellow-500'">
+                                <ng-container *ngIf="passwordStrength >= 4; else passwordWeak">
+                                    <span>&#10003;</span> <!-- Check icon -->
+                                </ng-container>
+                                <ng-template #passwordWeak>
+                                    <span>&#10007;</span> <!-- Alert icon -->
+                                </ng-template>
+                            </span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">Password must contain at least 8 characters, including uppercase, lowercase, a number, and a special character.</p>
+                    </div>
+                </div>
+                <!-- Confirm Password field -->
+                <div class="relative mb-6">
+                    <input id="confirmPassword" type="password" placeholder="Confirm Password" formControlName="confirmPassword"
+                        class="peer placeholder-transparent h-12 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-teal-600 transition duration-200" />
+                    <label for="confirmPassword"
+                        class="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Confirm Password</label>
+                    <div *ngIf="confirmPassword?.invalid && (confirmPassword?.touched || confirmPassword?.dirty)" class="text-red-500 text-xs mt-1">
+                        <span *ngIf="confirmPassword?.errors?.['required']">Confirm Password is required.</span>
+                        <span *ngIf="confirmPassword?.value !== password?.value">Passwords must match.</span>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 rounded-md transition duration-200" [disabled]="!isFormValid()">Register</button>
+                <p class="text-center text-sm text-gray-500 mt-4">
+                    Already have an account? <a routerLink="/login" class="text-teal-600 hover:underline font-semibold">Login</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
